@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.DormRoomMapper">
+    <select id="queryByDormRoom" resultType="org.example.pojo.DormRooms">
+        select dr.*,s.building from dorm_rooms dr
+        JOIN dorms s ON s.id = dr.dorm_id
+        <where>
+            <if test="param.building != null and param.building != ''">
+                AND s.building LIKE CONCAT('%', #{param.building}, '%')
+            </if>
+            <if test="param.dormNumber != null and param.dormNumber != ''">
+                AND dr.dorm_number  LIKE CONCAT('%', #{param.dormNumber}, '%')
+            </if>
+            <if test="param.floor != null and param.floor != ''">
+                AND dr.floor = #{param.floor}
+            </if>
+        </where>
+        ORDER BY dr.id
+    </select>
+</mapper>

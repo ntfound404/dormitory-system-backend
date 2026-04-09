@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.DormMapper">
+    <select id="queryDorms" resultType="org.example.pojo.Dorms">
+        select * from dorms
+        <where>
+            <if test="param.building != null and param.building != ''">
+                AND building = #{param.building}
+            </if>
+            <if test="param.gender != null and param.gender != ''">
+                AND gender = #{param.gender}
+            </if>
+        </where>
+        ORDER by id
+    </select>
+</mapper>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.StudentMapper">
+    <select id="queryByCondition" resultType="org.example.pojo.Students">
+        SELECT s.*,dr.dorm_number,d.building FROM students s
+        JOIN dorm_rooms dr ON s.room_id = dr.id
+        LEFT JOIN dorms d ON s.dorm_id = d.id
+        <where>
+            <if test="param.studentId != null and param.studentId != ''">
+                AND student_id LIKE CONCAT('%', #{param.studentId}, '%')
+            </if>
+            <if test="param.name != null and param.name != ''">
+                AND name LIKE CONCAT('%', #{param.name}, '%')
+            </if>
+            <if test="param.gender != null and param.gender != ''">
+                AND s.gender = #{param.gender}
+            </if>
+            <if test="param.group != null">
+                AND `group` = #{param.group}
+            </if>
+            <if test="param.phone != null and param.phone != ''">
+                AND phone LIKE CONCAT('%', #{param.phone}, '%')
+            </if>
+            <if test="param.major != null and param.major != ''">
+                AND major LIKE CONCAT('%', #{param.major}, '%')
+            </if>
+            <if test="param.enrollmentYear != null">
+                AND enrollment_year = #{param.enrollmentYear}
+            </if>
+            <if test="param.building != null">
+                AND d.building LIKE CONCAT('%', #{param.building}, '%')
+            </if>
+            <if test="param.dormNumber != null and param.dormNumber != ''">
+                AND dr.dorm_number  LIKE CONCAT('%', #{param.dormNumber}, '%')
+            </if>
+        </where>
+        ORDER BY id
+    </select>
+</mapper>

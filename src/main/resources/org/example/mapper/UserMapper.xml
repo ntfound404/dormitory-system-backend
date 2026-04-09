@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.UserMapper">
+    <select id="queryByUser" resultType="org.example.pojo.User">
+        SELECT * FROM users
+        <where>
+            <if test="param.username != null and param.username != ''">
+                AND username LIKE CONCAT('%', #{param.username}, '%')
+            </if>
+            <if test="param.nickname != null and param.nickname != ''">
+                AND nickname LIKE CONCAT('%', #{param.nickname}, '%')
+            </if>
+            <if test="param.email != null and param.email != ''">
+                AND email LIKE CONCAT('%', #{param.email}, '%')
+            </if>
+        </where>
+        ORDER BY id
+    </select>
+</mapper>

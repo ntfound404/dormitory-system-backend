@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.AttendanceMapper">
+    <select id="queryAttendance" resultType="org.example.pojo.Attendance">
+        SELECT a.*,s.*,dr.dorm_number FROM attendance a
+        JOIN students s ON a.student_id = s.id
+        LEFT JOIN dorm_rooms dr ON s.room_id = dr.id
+        <where>
+            <if test="param.studentId != null and param.studentId != ''">
+                AND s.student_id LIKE CONCAT('%',#{param.studentId},'%')
+            </if>
+            <if test="param.name != null and param.name != ''">
+                AND s.name LIKE CONCAT('%', #{param.name},'%')
+            </if>
+            <if test="param.group != null">
+                AND s.`group` = #{param.group}
+            </if>
+            <if test="param.status != null and param.status != ''">
+                AND status LIKE CONCAT('%',#{param.status},'%')
+            </if>
+            <if test="param.dormNumber != null and param.dormNumber != ''">
+                AND dr.dorm_number LIKE CONCAT('%', #{param.dormNumber},'%' )
+            </if>
+            <if test="param.date != null">
+                AND date = STR_TO_DATE(#{param.date}, '%Y-%m-%d')
+            </if>
+        </where>
+        ORDER BY a.id
+    </select>
+</mapper>
